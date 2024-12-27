@@ -12,6 +12,8 @@ namespace TrainReservationSystem.Application.Interfaces
     {
         Task<Reservation> CreateReservationAsync(ReservationRequestDto requestDto);
         Task<Reservation> GetReservationAsync (Guid reservationId);
+        Task DeleteReservationAsync (Guid reservationId);
+
 
     }
 }

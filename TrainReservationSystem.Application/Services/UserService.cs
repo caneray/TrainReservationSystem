@@ -49,7 +49,7 @@ namespace TrainReservationSystem.Application.Services
         {
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
-                return null; // Veya exception fırlatabilirsiniz
+                return null;
 
             // Güncelleme
             user.FullName = userDto.FullName;

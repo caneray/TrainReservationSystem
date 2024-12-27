@@ -19,5 +19,7 @@ namespace TrainReservationSystem.Domain.Entities
         public Guid TrainId { get; set; }
         public Train Train { get; set; }
         public ICollection<Seat> Seats { get; set; } = new List<Seat>();
+
+        //Kapasitesi eklenmeli.
     }
 }

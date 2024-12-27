@@ -62,22 +62,22 @@ namespace TrainReservationSystem.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReservationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WagonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TrainId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservations_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
+                        name: "FK_Reservations_Trains_TrainId",
+                        column: x => x.TrainId,
+                        principalTable: "Trains",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reservations_Wagons_WagonId",
-                        column: x => x.WagonId,
-                        principalTable: "Wagons",
+                        name: "FK_Reservations_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -132,9 +132,9 @@ namespace TrainReservationSystem.Infrastructure.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_WagonId",
+                name: "IX_Reservations_TrainId",
                 table: "Reservations",
-                column: "WagonId");
+                column: "TrainId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seats_WagonId",
@@ -160,10 +160,10 @@ namespace TrainReservationSystem.Infrastructure.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Wagons");
 
             migrationBuilder.DropTable(
-                name: "Wagons");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Trains");

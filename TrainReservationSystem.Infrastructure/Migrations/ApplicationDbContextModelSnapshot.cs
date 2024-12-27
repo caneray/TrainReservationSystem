@@ -55,14 +55,14 @@ namespace TrainReservationSystem.Infrastructure.Migrations
                     b.Property<DateTime>("ReservationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("WagonId")
+                    b.Property<Guid>("TrainId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("WagonId");
+                    b.HasIndex("TrainId");
 
                     b.ToTable("Reservations");
                 });
@@ -171,15 +171,15 @@ namespace TrainReservationSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrainReservationSystem.Domain.Entities.Wagon", "Wagon")
+                    b.HasOne("TrainReservationSystem.Domain.Entities.Train", "Train")
                         .WithMany()
-                        .HasForeignKey("WagonId")
+                        .HasForeignKey("TrainId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Owner");
 
-                    b.Navigation("Wagon");
+                    b.Navigation("Train");
                 });
 
             modelBuilder.Entity("TrainReservationSystem.Domain.Entities.Seat", b =>

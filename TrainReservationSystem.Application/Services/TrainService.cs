@@ -37,11 +37,8 @@ namespace TrainReservationSystem.Application.Services
                 .Include(t => t.Wagons)
                 .FirstOrDefaultAsync(t => t.Id == trainId);
 
-
-
             return train;
         }
-
         public async Task<IEnumerable<Train>> GetAllTrainsAsync()
         {
             return await _context.Trains

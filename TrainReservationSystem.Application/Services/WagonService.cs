@@ -20,18 +20,6 @@ namespace TrainReservationSystem.Application.Services
 
         public async Task<Wagon> CreateWagonAsync(WagonDto wagonDto)
         {
-            //var wagon = new Wagon
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Name = wagonDto.Name,
-            //    TrainId = wagonDto.TrainId,
-            //    // Diğer alanlar
-            //};
-
-            //_context.Wagons.Add(wagon);
-            //await _context.SaveChangesAsync();
-            //return wagon;
-
             var wagon = new Wagon
             {
                 Id = Guid.NewGuid(),
@@ -40,9 +28,7 @@ namespace TrainReservationSystem.Application.Services
             };
 
             _context.Wagons.Add(wagon);
-            //await _context.SaveChangesAsync();
 
-            // Şimdi bu vagona 6 koltuğu otomatik ekleyelim
             var seatNumbers = new[] { "1A", "2A", "3A", "1B", "2B", "3B" };
             foreach (var seatNum in seatNumbers)
             {
@@ -55,13 +41,10 @@ namespace TrainReservationSystem.Application.Services
                 };
                 _context.Seats.Add(seat);
             }
-
-            // Koltuk eklemelerini de kaydedelim
             await _context.SaveChangesAsync();
 
             return wagon;
         }
-
         public async Task<Wagon> GetWagonByIdAsync(Guid wagonId)
         {
             return await _context.Wagons.FindAsync(wagonId);

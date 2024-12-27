@@ -15,10 +15,11 @@ namespace TrainReservationSystem.Domain.Entities
 
         [Required]
         public DateTime? ReservationDate { get; set; }
-
+        public Guid TrainId { get; set; }
+        public Train? Train { get; set; }
         // Hangi vagon için rezervasyon yapıldı
-        public Guid WagonId { get; set; }
-        public Wagon? Wagon { get; set; }
+        //public Guid WagonId { get; set; }
+        //public Wagon? Wagon { get; set; }
 
         // Rezervasyonu yapan kullanıcı (owner)
         public Guid OwnerId { get; set; }
