@@ -22,22 +22,12 @@ namespace TrainReservationSystem.Application.Services
 
         public async Task<Reservation> CreateReservationAsync(ReservationRequestDto requestDto)
         {
-            var train = await _context.Trains.FindAsync(requestDto.TrainId);
-            var wagon = await _context.Wagons.FindAsync(requestDto.WagonId);
-            if (wagon == null)
-                throw new Exception("Wagon not found.");
-            var seat = await _context.Seats.FirstOrDefaultAsync(r => r.WagonId == wagon.Id && r.SeatNumber == requestDto.SelectedSeatNumber);
+
+            var train = await _context.Trains.Include(x => x.Wagons).ThenInclude(x => x.Seats).FirstOrDefaultAsync(x => x.Id == requestDto.TrainId);
+
             var ownerUser = await _context.Users.FindAsync(requestDto.UserId);
             if (ownerUser == null)
                 throw new Exception("User (reservation owner) not found.");
-
-            if (seat == null)
-                throw new Exception("This seat does not exist");
-
-            if (seat.IsReserved)
-                throw new Exception($"Seat {seat.SeatNumber} is already reserved");
-
-            seat.IsReserved = true;
 
             var reservation = new Reservation
             {
@@ -54,8 +44,26 @@ namespace TrainReservationSystem.Application.Services
                     Id = Guid.NewGuid(),
                     FullName = passengerDto.FullName,
                     ReservationId = reservation.Id,
+                    SelectedSeatNumber = passengerDto.SelectedSeatNumber,
+                    
                 };
+
+                foreach (var wagon in train.Wagons)
+                {
+                    foreach (var seat in wagon.Seats)
+                    {
+                        if (seat.SeatNumber == passengerDto.SelectedSeatNumber && seat.IsReserved == true && seat.WagonId == passengerDto.WagonId)
+                        {
+                            throw new Exception("The seat that you have select is taken: " + seat.SeatNumber);
+                        }
+                        if (seat.SeatNumber == passengerDto.SelectedSeatNumber && seat.WagonId == passengerDto.WagonId)
+                        {
+                            seat.IsReserved = true;
+                        }
+                    }
+                }
                 reservation.Passengers.Add(passengerEntity);
+
             }
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();

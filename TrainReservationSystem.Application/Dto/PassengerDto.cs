@@ -9,5 +9,9 @@ namespace TrainReservationSystem.Application.Dto
     public class PassengerDto
     {
         public string FullName { get; set; }
+
+        public string SelectedSeatNumber { get; set; }
+        public Guid WagonId { get; set; }
+
     }
 }

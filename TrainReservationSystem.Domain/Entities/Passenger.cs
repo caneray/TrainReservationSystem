@@ -16,6 +16,7 @@ namespace TrainReservationSystem.Domain.Entities
         [Required]
         [MaxLength(100)]
         public string FullName { get; set; }
+        public string SelectedSeatNumber { get; set; }
 
         // Bu yolcunun hangi rezervasyona ait olduğu
         public Guid ReservationId { get; set; }
